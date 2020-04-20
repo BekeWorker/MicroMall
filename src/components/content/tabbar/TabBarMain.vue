@@ -1,21 +1,21 @@
 <template>
   <tab-bar>
-    <tab-bar-item path="/home" :activeColor="textColor">
+    <tab-bar-item path="/home" :activeColor="activeStyle">
       <img slot="item-icon" src="~assets/img/tabbar/home.svg" alt="">
       <img slot="item-icon-active" src="../../../assets/img/tabbar/home_active.svg" alt="">
       <div slot="item-text">首页</div>
     </tab-bar-item>
-    <tab-bar-item path="/category" :activeColor="textColor">
+    <tab-bar-item path="/category" :activeColor="activeStyle">
       <img slot="item-icon" src="~assets/img/tabbar/category.svg" alt="">
       <img slot="item-icon-active" src="~assets/img/tabbar/category_active.svg" alt="">
       <div slot="item-text">分类</div>
     </tab-bar-item>
-    <tab-bar-item path="/shopcart" :activeColor="textColor">
+    <tab-bar-item path="/shopcart" :activeColor="activeStyle">
       <img slot="item-icon" src="~assets/img/tabbar/shopcart.svg" alt="">
       <img slot="item-icon-active" src="~assets/img/tabbar/shopcart_active.svg" alt="">
       <div slot="item-text">购物车</div>
     </tab-bar-item>
-    <tab-bar-item path="/profile" :activeColor="textColor">
+    <tab-bar-item path="/profile" :activeColor="activeStyle">
       <img slot="item-icon" src="~assets/img/tabbar/profile.svg" alt="">
       <img slot="item-icon-active" src="~assets/img/tabbar/profile_active.svg" alt="">
       <div slot="item-text">我的</div>
@@ -32,10 +32,10 @@
       TabBar,
       TabBarItem
     },
-    props:{
-      textColor:{
-        type:'',
-        default:''
+    data () {
+      return {
+        path:'',
+        activeStyle: '#ee5253'
       }
     }
   }
