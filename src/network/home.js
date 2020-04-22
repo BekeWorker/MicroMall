@@ -5,3 +5,13 @@ export function getHomeMultidata () {
     url:'/home/multidata'
   })
 }
+
+export function getHomeGoods(type, page) {
+  return axiosFn2({
+    url: 'home/data',
+    params: {
+      type,
+      page
+    }
+  })
+}

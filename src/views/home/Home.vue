@@ -78,6 +78,7 @@
   import TabBarControl from "components/content/tabbarControl/TabBarControl";
 
   import {getHomeMultidata} from 'network/home';
+  import {getHomeGoods} from "../../network/home";
 
   export default {
     name: "Home",
@@ -92,14 +93,35 @@
       return {
         banners: [],
         recommends: [],
-        controlText:['流行', '新款', '精选']
+        controlText: ['流行', '新款', '精选'],
+        goods:{
+          'pop': {page:0, list:[]},
+          'new': {page:0, list:[]},
+          'sell': {page:0, list:[]}
+        }
       }
     },
     created() {
-      getHomeMultidata().then((res) => {
-        this.banners = res.data.data.banner.list;
-        this.recommends = res.data.data.recommend.list;
-      })
+      this.getHomeMul()
+      this.getHomeGoodsData('pop')
+      this.getHomeGoodsData('new')
+      this.getHomeGoodsData('sell')
+    },
+    methods: {
+      getHomeMul() {
+        getHomeMultidata().then((res) => {
+          this.banners = res.data.data.banner.list;
+          this.recommends = res.data.data.recommend.list;
+        })
+      },
+      getHomeGoodsData(type) {
+        const page = this.goods[type].page + 1;
+        getHomeGoods(type,page).then((res) => {
+          const newList = res.data.data.list;
+          this.goods[type].list.push(...newList);
+          // console.log(this.goods[type].list);
+        })
+      }
     }
   }
 </script>
