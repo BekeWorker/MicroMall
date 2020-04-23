@@ -15,7 +15,9 @@
     props: {
       controlText: {
         type: Array,
-        default: []
+        default () {
+          return []
+        }
       }
     },
     data () {
@@ -26,7 +28,8 @@
     },
     methods: {
       clickControl (index) {
-        this.finalIndex = index
+        this.finalIndex = index;
+        this.$emit('clickControl',index)
       }
     }
   }

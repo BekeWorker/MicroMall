@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="">
     <router-view></router-view>
     <tab-bar-main></tab-bar-main>
   </div>
@@ -18,5 +18,4 @@
 
 <style>
   @import "assets/css/base.css";
-
 </style>

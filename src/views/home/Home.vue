@@ -4,7 +4,8 @@
     <home-swiper :banners="banners"/>
     <home-recommend :recommends="recommends"/>
     <feature-view/>
-    <tab-bar-control class="tab-control" :controlText="controlText" />
+    <tab-bar-control class="tab-control" :controlText="controlText" @clickControl="clickControl"/>
+    <goods-list :goods="goods[goodsType].list"></goods-list>
     <ul>
       <li>1</li>
       <li>2</li>
@@ -72,22 +73,27 @@
 
 <script>
   import NavBar from "components/common/navbar/NavBar";
+  import TabBarControl from "components/content/tabbarControl/TabBarControl";
+  import GoodsList from "components/content/goods/GoodsList";
+  import GoodsListItem from "components/content/goods/GoodsListItem";
+
   import HomeSwiper from "./childComps/HomeSwiper";
   import HomeRecommend from "./childComps/HomeRecommend";
   import FeatureView from "./childComps/FeatureView";
-  import TabBarControl from "components/content/tabbarControl/TabBarControl";
 
-  import {getHomeMultidata} from 'network/home';
-  import {getHomeGoods} from "../../network/home";
+
+  import {getHomeMultidata , getHomeGoods} from 'network/home';
 
   export default {
     name: "Home",
     components: {
       NavBar,
+      TabBarControl,
+      GoodsList,
+      GoodsListItem,
       HomeSwiper,
       HomeRecommend,
-      FeatureView,
-      TabBarControl
+      FeatureView
     },
     data () {
       return {
@@ -98,7 +104,8 @@
           'pop': {page:0, list:[]},
           'new': {page:0, list:[]},
           'sell': {page:0, list:[]}
-        }
+        },
+        goodsType: 'pop'
       }
     },
     created() {
@@ -108,6 +115,9 @@
       this.getHomeGoodsData('sell')
     },
     methods: {
+      /**
+       * 网络请求相关的方法
+       */
       getHomeMul() {
         getHomeMultidata().then((res) => {
           this.banners = res.data.data.banner.list;
@@ -121,7 +131,33 @@
           this.goods[type].list.push(...newList);
           // console.log(this.goods[type].list);
         })
-      }
+        this.goods[type].page = page;
+      },
+
+      /**
+       * 组件通信相关的方法
+       */
+      clickControl (index) {
+        // console.log(index)
+        switch(index) {
+          case 0: {
+            this.goodsType = 'pop';
+            break;
+          }
+          case 1: {
+            this.goodsType = 'new';
+            break;
+          }
+          case 2: {
+            this.goodsType = 'sell';
+            break;
+          }
+        }
+      },
+      /**
+       *
+       */
+
     }
   }
 </script>
