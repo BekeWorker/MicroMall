@@ -142,13 +142,20 @@
     position: sticky;
     top: 44px;
   }
+  /*.content {*/
+  /*  overflow: hidden;*/
+  /*  position: absolute;*/
+  /*  top: 44px;*/
+  /*  bottom: 49px;*/
+  /*  left: 0;*/
+  /*  right: 0;*/
+  /*}*/
+
+  /*计算内容的高度*/
   .content {
     overflow: hidden;
-    position: absolute;
-    top: 44px;
-    bottom: 49px;
-    left: 0;
-    right: 0;
+    height: calc(100% - 93px);
+    margin-top: 44px;
   }
 
 </style>

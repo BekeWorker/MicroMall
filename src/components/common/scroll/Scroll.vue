@@ -44,6 +44,7 @@
     })
     },
     methods: {
+      // ES6新语法给参数默认值
       scrollTo(x, y, time=300) {
         this.bScroll.scrollTo(x, y, time)
       }
