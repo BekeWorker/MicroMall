@@ -38,7 +38,8 @@
        this.$emit('timePosition',position)
      })
      this.bScroll.on('pullingUp', () => {
-       console.log('上拉加载更多')
+       // console.log('上拉加载更多')
+       this.$emit('pullUpLoad')
        this.bScroll.finishPullUp()
     })
     },

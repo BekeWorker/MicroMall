@@ -5,6 +5,8 @@
             ref="scroll"
             :probeType="3"
             @timePosition="getPosition"
+            :pullUpLoad="true"
+            @pullUpLoad="moreLoad"
     >
         <home-swiper :banners="banners"/>
         <home-recommend :recommends="recommends"/>
@@ -117,6 +119,10 @@
       getPosition(position) {
         // console.log(position);
         this.isShow = -position.y >1000
+      },
+      moreLoad() {
+        // console.log('完成上拉加载更多');
+        this.getHomeGoodsData(this.goodsType);
       }
     }
   }
