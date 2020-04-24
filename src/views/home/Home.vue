@@ -1,73 +1,20 @@
 <template>
-  <div id="home">
+  <div id="home" >
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <home-swiper :banners="banners"/>
-    <home-recommend :recommends="recommends"/>
-    <feature-view/>
-    <tab-bar-control class="tab-control" :controlText="controlText" @clickControl="clickControl"/>
-    <goods-list :goods="goods[goodsType].list"></goods-list>
-    <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-      <li>11</li>
-      <li>12</li>
-      <li>13</li>
-      <li>14</li>
-      <li>15</li>
-      <li>16</li>
-      <li>17</li>
-      <li>18</li>
-      <li>19</li>
-      <li>20</li>
-      <li>21</li>
-      <li>22</li>
-      <li>23</li>
-      <li>24</li>
-      <li>25</li>
-      <li>26</li>
-      <li>27</li>
-      <li>28</li>
-      <li>29</li>
-      <li>30</li>
-      <li>31</li>
-      <li>32</li>
-      <li>33</li>
-      <li>34</li>
-      <li>35</li>
-      <li>36</li>
-      <li>37</li>
-      <li>38</li>
-      <li>39</li>
-      <li>40</li>
-      <li>41</li>
-      <li>42</li>
-      <li>43</li>
-      <li>44</li>
-      <li>45</li>
-      <li>46</li>
-      <li>47</li>
-      <li>48</li>
-      <li>49</li>
-      <li>50</li>
-      <li>51</li>
-      <li>52</li>
-      <li>53</li>
-      <li>54</li>
-      <li>55</li>
-      <li>56</li>
-      <li>57</li>
-      <li>58</li>
-      <li>59</li>
-      <li>60</li>
-    </ul>
+    <scroll class="content"
+            ref="scroll"
+            :probeType="3"
+            @timePosition="getPosition"
+    >
+        <home-swiper :banners="banners"/>
+        <home-recommend :recommends="recommends"/>
+        <feature-view/>
+        <tab-bar-control class="tab-control"
+                         :controlText="controlText"
+                         @clickControl="clickControl"/>
+        <goods-list :goods="goods[goodsType].list"></goods-list>
+    </scroll>
+    <back-top @click.native="backClick" v-show="isShow"/>
   </div>
 </template>
 
@@ -76,6 +23,8 @@
   import TabBarControl from "components/content/tabbarControl/TabBarControl";
   import GoodsList from "components/content/goods/GoodsList";
   import GoodsListItem from "components/content/goods/GoodsListItem";
+  import Scroll from "components/common/scroll/Scroll";
+  import BackTop from "components/content/backTop/BackTop";
 
   import HomeSwiper from "./childComps/HomeSwiper";
   import HomeRecommend from "./childComps/HomeRecommend";
@@ -91,6 +40,8 @@
       TabBarControl,
       GoodsList,
       GoodsListItem,
+      Scroll,
+      BackTop,
       HomeSwiper,
       HomeRecommend,
       FeatureView
@@ -100,12 +51,14 @@
         banners: [],
         recommends: [],
         controlText: ['流行', '新款', '精选'],
+        // 商品的数据结构
         goods:{
           'pop': {page:0, list:[]},
           'new': {page:0, list:[]},
           'sell': {page:0, list:[]}
         },
-        goodsType: 'pop'
+        goodsType: 'pop',
+        isShow:false
       }
     },
     created() {
@@ -135,8 +88,9 @@
       },
 
       /**
-       * 组件通信相关的方法
+       * 事件监听相关的方法
        */
+      // 点击切换商品数据的类型
       clickControl (index) {
         // console.log(index)
         switch(index) {
@@ -154,25 +108,41 @@
           }
         }
       },
-      /**
-       *
-       */
-
+      // 监听组件的点击,点击后滚动到顶部
+      backClick() {
+        // console.log('backTop发生了点击');
+        // 组件访问$refs,访问子组件
+        this.$refs.scroll.scrollTo(0, 0, 500)
+      },
+      getPosition(position) {
+        // console.log(position);
+        this.isShow = -position.y >1000
+      }
     }
   }
 </script>
 
 <style scoped>
   #home {
-    padding-top: 44px;
+    /*padding-top: 44px;*/
+    /*视口的高度vh 100%*/
+    height: 100vh;
+    position: relative;
   }
-
   .home-nav {
     background-color: var(--color-tint);
   }
   .tab-control {
     position: sticky;
     top: 44px;
+  }
+  .content {
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
   }
 
 </style>
