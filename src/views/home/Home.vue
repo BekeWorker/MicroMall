@@ -6,7 +6,7 @@
             :probeType="3"
             @timePosition="getPosition"
             :pullUpLoad="true"
-            @pullUpLoad="moreLoad"
+            @pullUpLoad="loadMore"
     >
         <home-swiper :banners="banners"/>
         <home-recommend :recommends="recommends"/>
@@ -14,7 +14,7 @@
         <tab-bar-control class="tab-control"
                          :controlText="controlText"
                          @clickControl="clickControl"/>
-        <goods-list :goods="goods[goodsType].list"></goods-list>
+        <goods-list :goods="showGoods" />
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"/>
   </div>
@@ -34,6 +34,7 @@
 
 
   import {getHomeMultidata , getHomeGoods} from 'network/home';
+  import {debounce} from 'common/Utils'
 
   export default {
     name: "Home",
@@ -60,7 +61,8 @@
           'sell': {page:0, list:[]}
         },
         goodsType: 'pop',
-        isShow:false
+        isShow: false,
+        setTop: 0
       }
     },
     created() {
@@ -68,6 +70,21 @@
       this.getHomeGoodsData('pop')
       this.getHomeGoodsData('new')
       this.getHomeGoodsData('sell')
+    },
+    mounted() {
+      //防抖函数
+      const refresh = debounce(this.$refs.scroll.refresh,50)
+      // 事件总线
+      this.$bus.$on('imgLoaded', () => {
+        refresh()
+      })
+
+
+    },
+    computed: {
+      showGoods() {
+        return this.goods[this.goodsType].list
+      }
     },
     methods: {
       /**
@@ -85,6 +102,7 @@
           const newList = res.data.data.list;
           this.goods[type].list.push(...newList);
           // console.log(this.goods[type].list);
+          this.$refs.scroll.finishPullUp()
         })
         this.goods[type].page = page;
       },
@@ -116,14 +134,15 @@
         // 组件访问$refs,访问子组件
         this.$refs.scroll.scrollTo(0, 0, 500)
       },
+      // 获得当前滚动的位置
       getPosition(position) {
-        // console.log(position);
+        // 判断backTop的隐藏和显示
         this.isShow = -position.y >1000
       },
-      moreLoad() {
-        // console.log('完成上拉加载更多');
-        this.getHomeGoodsData(this.goodsType);
-      }
+      // 上拉加载更多
+      loadMore () {
+        this.getHomeGoodsData(this.goodsType)
+      },
     }
   }
 </script>

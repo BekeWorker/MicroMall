@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="goods-info">
-      <img :src="goodsItem.show.img" alt="">
+      <img :src="goodsItem.show.img" alt="" @load="imgLoad" ref="goodsImgLoad">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.orgPrice}}</span>
       <img class="collect" src="~assets/img/common/collect.svg" alt="">
@@ -22,7 +22,18 @@
           }
         }
       }
+    },
+    data () {
+      return {
+        fnCount:0
+      }
+    },
+    methods: {
+      imgLoad() {
+        this.$bus.$emit('imgLoaded')
+      }
     }
+
   }
 </script>
 

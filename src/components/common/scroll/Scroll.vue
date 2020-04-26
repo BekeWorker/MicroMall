@@ -12,17 +12,17 @@
     name: "Scroll",
     data () {
       return {
-        bScroll:null
+        bScroll: null
       }
     },
     props: {
-      probeType:{
-        type:Number,
+      probeType: {
+        type: Number,
         default: 0
       },
       pullUpLoad: {
-        type:Boolean,
-        default:false
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -30,23 +30,33 @@
        // click是监听非bottom以外其他元素的点击,要设置为true
        click: true,
        probeType: this.probeType,
-       pullUpLoad: this.pullUpLoad,
-
+       pullUpLoad: this.pullUpLoad
      })
+      // 监听滚动的位置
      this.bScroll.on('scroll',  (position) =>{
-       // console.log(position);
-       this.$emit('timePosition',position)
+       if(this.probeType === 2 || this.probeType === 3) {
+         // console.log(position);
+         this.$emit('timePosition',position)
+       }
      })
-     this.bScroll.on('pullingUp', () => {
-       // console.log('上拉加载更多')
-       this.$emit('pullUpLoad')
-       this.bScroll.finishPullUp()
-    })
+      // 监听是否下拉到底部
+      this.bScroll.on('pullingUp', () => {
+        if(this.pullUpLoad) {
+          this.$emit('pullUpLoad')
+        }
+      })
     },
     methods: {
       // ES6新语法给参数默认值
       scrollTo(x, y, time=300) {
-        this.bScroll.scrollTo(x, y, time)
+        this.bScroll && this.bScroll.scrollTo(x, y, time)
+      },
+      // 实现scroll.refresh()
+      refresh() {
+        this.bScroll && this.bScroll.refresh()
+      },
+      finishPullUp() {
+        this.bScroll && this.bScroll.finishPullUp()
       }
     }
   }
