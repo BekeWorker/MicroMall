@@ -17,8 +17,14 @@
   export default {
     name: "TabBarItem",
     props:{
-      activeColor:'',
-      path:''
+      activeColor: {
+        type: String,
+        default: ''
+      },
+      path: {
+        type: String,
+        default: ''
+      }
     },
     computed:{
       // 这些是计算属性,而不是方法/函数

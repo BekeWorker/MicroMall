@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="goods-info">
+    <div class="goods-info" @click="goodsItemClick">
       <img :src="goodsItem.show.img" alt="" @load="imgLoad" ref="goodsImgLoad">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.orgPrice}}</span>
@@ -31,6 +31,18 @@
     methods: {
       imgLoad() {
         this.$bus.$emit('imgLoaded')
+      },
+      goodsItemClick() {
+        // $router:实例化的router
+        // $route:当前活跃的路由对象
+        // 通过代码的方式实现路由的跳转
+        this.$router.push('/detail/' + this.goodsItem.iid)
+        
+        // 不需要更改routes中的路由映射path
+        // this.$router.push({
+        //   path: '/detail/' + this.goodsItem.iid,
+        //   query: { }
+        // })
       }
     }
 

@@ -5,6 +5,7 @@ const Home = () =>import('../views/home/Home');
 const Category = () =>import('../views/category/Category');
 const ProFile = () =>import('../views/profile/ProFile');
 const ShopCart = () =>import('../views/shopcart/ShopCart');
+const Detail = () => import('../views/detail/Detail')
 
 
 // 1.使用插件
@@ -28,9 +29,14 @@ const routes = [
   {
     path: '/profile',
     component: ProFile
-  },  {
+  },
+  {
     path: '/shopcart',
     component: ShopCart
+  },
+  {
+    path: '/detail/:iid',
+    component: Detail
   }
 ]
 const router = new VueRouter({

@@ -71,7 +71,9 @@
         isShow: false,
         setTop: 0,
         offsetTopControl: 0,
-        isShowControl: false
+        isShowControl: false,
+        savePosiY: 0,
+        saveY: 0
       }
     },
     created() {
@@ -87,8 +89,14 @@
       this.$bus.$on('imgLoaded', () => {
         refresh()
       })
-
-
+    },
+    activated() {
+      this.$refs.scroll.refresh()
+      this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    },
+    deactivated() {
+      this.saveY = this.savePosiY
+      // console.log(this.saveY)
     },
     computed: {
       showGoods() {
@@ -149,6 +157,7 @@
         // 判断backTop的隐藏和显示
         this.isShow = -position.y > 1000
         this.isShowControl = -position.y > this.offsetTopControl
+        this.savePosiY = position.y
       },
       // 上拉加载更多
       loadMore () {
@@ -158,7 +167,6 @@
       controlOffsetTop () {
         // 获取backTop的高度
         this.offsetTopControl = this.$refs.tabControl2.$el.offsetTop
-        console.log(this.offsetTopControl);
       }
     }
   }
