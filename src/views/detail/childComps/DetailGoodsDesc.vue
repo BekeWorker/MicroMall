@@ -1,11 +1,11 @@
 <template>
-  <div class="desc-main">
+  <div class="desc-main" v-if="Object.keys(goodsDesc).length !== 0">
     <i class="top-icon"></i>
     <div class="top"></div>
     <div class="goods-desc">{{goodsDesc.desc}}</div>
     <i class="end-icon"></i>
     <div class="end"></div>
-    <div v-for="item in goodsDesc.detailImage">
+    <div v-for="(item, index) in goodsDesc.detailImage" :key="index">
       <div class="goods-desc-key">{{item.key}}</div>
       <div v-for="(item, index) in item.list" :key="index">
         <img class="goods-desc-img" :src="item" alt="" @load="imgLoad">

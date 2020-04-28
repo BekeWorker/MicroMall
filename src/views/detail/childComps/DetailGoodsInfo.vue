@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-goods-info">
+  <div class="detail-goods-info" v-if="Object.keys(goodsInfo).length !== 0">
     <div class="title-info">{{goodsInfo.title}}</div>
     <div>
       <span class="n-price">{{goodsInfo.price}}</span>
@@ -10,12 +10,14 @@
       >{{goodsInfo.discountDesc}}</span>
     </div>
     <div class="goodsInfo-columns">
-      <span class="columns-item" v-for="item in goodsInfo.columns">{{item}}</span>
+      <span>{{goodsInfo.columns[0]}} </span>
+      <span>{{goodsInfo.columns[1]}} </span>
+      <span>{{goodsInfo.services[goodsInfo.services.length-1].name}}</span>
     </div>
     <div class="goodsInfo-services">
-      <span v-for="item in goodsInfo.services">
-        <img :src="item.icon" alt="">
-        {{item.name}}
+      <span v-for="index in goodsInfo.services.length-1" :key="index">
+        <img :src="goodsInfo.services[index-1].icon" alt="">
+        {{goodsInfo.services[index-1].name}}
       </span>
     </div>
   </div>
@@ -34,18 +36,9 @@
       }
     },
     data () {
-      return {
-        // columns: this.columnsChange,
-        // services: this.servicesChange
-      }
+      return {}
     },
     computed: {
-      // columnsChange() {
-      //   return this.goodsInfo.columns.splice(2, 1, this.goodsInfo.services[length-1])
-      // },
-      // servicesChange() {
-      //   return this.goodsInfo.services.splice(3,1)
-      // },
       isShow() {
         return this.goodsInfo.discountDesc === ""
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="shop-info">
+  <div class="shop-info" v-if="Object.keys(shopInfo).length !== 0">
     <div>
       <img class="shop-logo" :src="shopInfo.shopLogo" alt="">
       <span class="shop-name">{{shopInfo.name}}</span>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="shop-middle-right">
-        <div class="right-item" v-for="item in shopInfo.score">
+        <div class="right-item" v-for="(item, index) in shopInfo.score" :key="index">
           <span>{{item.name}}</span>
           <span class="score" :class="{active:item.isBetter}">{{item.score}}</span>
           <span class="low assess" v-if="item.score < 4.8">低</span>

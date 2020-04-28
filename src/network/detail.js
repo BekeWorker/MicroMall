@@ -33,3 +33,12 @@ export class ShopInfo {
     this.score = shopInfo.score
   }
 }
+
+export class ParamsInfo {
+  constructor(info, rule) {
+    this.disclaimer = rule.disclaimer
+    this.key = rule.key
+    this.tables = rule.tables
+    this.set = info.set
+  }
+}
