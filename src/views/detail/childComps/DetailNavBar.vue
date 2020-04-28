@@ -43,6 +43,7 @@
   #detail .detail-navbar {
     color: #333333;
     font-size: 15px;
+    background-color: #fff;
   }
   .detail-navbar img {
     vertical-align: middle;
