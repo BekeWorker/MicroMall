@@ -7,12 +7,16 @@
       <detail-shop-info :shopInfo="shopInfo"/>
       <detail-goods-desc :goodsDesc="goodsDesc" @imageLoad="imageLoad"/>
       <detail-params-info :goodsParamsInfo="goodsParamsInfo"/>
+      <detail-comment :goodsComment="goodsComment"/>
+      <goods-list :goods="goods"/>
     </scroll>
+    <detail-bottom-bar/>
   </div>
 </template>
 
 <script>
   import Scroll from "components/common/scroll/Scroll";
+  import GoodsList from "components/content/goods/GoodsList";
 
   import DetailNavBar from "./childComps/DetailNavBar";
   import DetailSwiper from "./childComps/DetailSwiper";
@@ -20,19 +24,24 @@
   import DetailShopInfo from "./childComps/DetailShopInfo";
   import DetailGoodsDesc from "./childComps/DetailGoodsDesc";
   import DetailParamsInfo from "./childComps/DetailParamsInfo";
+  import DetailComment from "./childComps/DetailComment";
+  import DetailBottomBar from "./childComps/DetailBottomBar";
 
-  import {getDetailData} from 'network/detail'
+  import {getDetailData, getRecommendData} from 'network/detail'
   import {GoodsInfo, ShopInfo, ParamsInfo} from 'network/detail'
   export default {
     name: "Detail",
     components: {
       Scroll,
+      GoodsList,
       DetailSwiper,
       DetailNavBar,
       DetailGoodsInfo,
       DetailShopInfo,
       DetailGoodsDesc,
-      DetailParamsInfo
+      DetailParamsInfo,
+      DetailComment,
+      DetailBottomBar
     },
     data () {
       return {
@@ -41,7 +50,9 @@
         goodsInfo: {},
         shopInfo: {},
         goodsDesc: {},
-        goodsParamsInfo: {}
+        goodsParamsInfo: {},
+        goodsComment:[],
+        goods:[]
       }
     },
     created() {
@@ -58,11 +69,18 @@
         this.goodsDesc = this.data.detailInfo
         // 获取产品参数的数据
         this.goodsParamsInfo = new ParamsInfo(this.data.itemParams.info, this.data.itemParams.rule)
+        // 获取用户评价
+        this.goodsComment = this.data.rate.list
+      })
+      // 获取推荐产品的的信息
+      getRecommendData().then((res) => {
+        this.goods = res.data.data.list
+        // console.log(this.goods)
       })
     },
     methods: {
       imageLoad() {
-        console.log('图片刷新')
+        // console.log('图片刷新')
         this.$refs.detailScroll.refresh()
       }
     }
@@ -71,14 +89,11 @@
 
 <style scoped>
   #detail {
-    position: relative;
-    top: 44px;
-    z-index: 9;
-    background-color: #fff;
     height: 100vh;
   }
   .content {
-    height: calc(100% - 44px);
-    /*background-color: #fff;*/
+    overflow: hidden;
+    height: calc(100% - 93px);
+    margin-top: 44px;
   }
 </style>

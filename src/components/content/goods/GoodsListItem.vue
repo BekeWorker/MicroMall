@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="goods-info" @click="goodsItemClick">
-      <img :src="goodsItem.show.img" alt="" @load="imgLoad" ref="goodsImgLoad">
+      <img :src="showImage" alt="" @load="imgLoad" ref="goodsImgLoad">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.orgPrice}}</span>
       <img class="collect" src="~assets/img/common/collect.svg" alt="">
@@ -28,6 +28,11 @@
         fnCount:0
       }
     },
+    computed: {
+      showImage() {
+        return this.goodsItem.image || this.goodsItem.show.img
+      }
+    },
     methods: {
       imgLoad() {
         this.$bus.$emit('imgLoaded')
@@ -36,8 +41,8 @@
         // $router:实例化的router
         // $route:当前活跃的路由对象
         // 通过代码的方式实现路由的跳转
-        this.$router.push('/detail/' + this.goodsItem.iid)
-        
+        this.$router.push('/detail/' + this.goodsItem.iid )
+
         // 不需要更改routes中的路由映射path
         // this.$router.push({
         //   path: '/detail/' + this.goodsItem.iid,
@@ -55,6 +60,7 @@
     text-align: center;
     width: 180px;
     font-size: 15px;
+    padding-top: 10px;
   }
   /*文字多出隐藏*/
   .goods-info p{

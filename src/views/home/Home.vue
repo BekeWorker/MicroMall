@@ -174,18 +174,16 @@
 
 <style scoped>
   #home {
-    padding-top: 44px;
     /*视口的高度vh 100%*/
     height: 100vh;
-    position: relative;
   }
   .home-nav {
     background-color: var(--color-tint);
   }
-  .tab-control {
-    position: sticky;
-    top: 44px;
-  }
+  /*.tab-control {*/
+  /*  position: sticky;*/
+  /*  top: 44px;*/
+  /*}*/
   /*.content {*/
   /*  overflow: hidden;*/
   /*  position: absolute;*/
@@ -198,9 +196,8 @@
   /*计算内容的高度*/
   .content {
     overflow: hidden;
-    height: calc(100% - 44px);
-    /*margin-top: 44px;*/
-
+    height: calc(100% - 93px);
+    margin-top: 44px;
   }
   #home .tab-control1 {
     position: fixed;

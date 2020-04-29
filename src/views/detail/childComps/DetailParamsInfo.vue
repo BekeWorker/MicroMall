@@ -14,7 +14,6 @@
     </table>
     <table class="info-param">
       <tr v-for="(tr, indexr) in goodsParamsInfo.set" :key="indexr">
-<!--        <td v-for="(td, indexd) in tr" :key="indexd">{{td}}</td>-->
         <td>{{tr.key}}</td>
         <td class="td-value">{{tr.value}}</td>
       </tr>
@@ -42,10 +41,6 @@
     color: #666;
     font-size: 14px;
   }
-  .info-size td {
-    /*padding: ;*/
-  }
-
   .params-desc {
     padding: 10px 0;
   }

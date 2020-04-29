@@ -42,3 +42,9 @@ export class ParamsInfo {
     this.set = info.set
   }
 }
+
+export function getRecommendData() {
+  return axiosFn2({
+    url:'/recommend'
+  })
+}
