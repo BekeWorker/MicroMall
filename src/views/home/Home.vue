@@ -33,25 +33,27 @@
   import GoodsList from "components/content/goods/GoodsList";
   import GoodsListItem from "components/content/goods/GoodsListItem";
   import Scroll from "components/common/scroll/Scroll";
-  import BackTop from "components/content/backTop/BackTop";
+  // import BackTop from "components/content/backTop/BackTop";
 
   import HomeSwiper from "./childComps/HomeSwiper";
   import HomeRecommend from "./childComps/HomeRecommend";
   import FeatureView from "./childComps/FeatureView";
 
-
   import {getHomeMultidata , getHomeGoods} from 'network/home';
-  import {debounce} from 'common/Utils'
+
+  // import {debounce} from 'common/utils'
+  import {goodsItemImageLoad, backTop} from 'common/mixin'
 
   export default {
     name: "Home",
+    mixins:[goodsItemImageLoad, backTop],
     components: {
       NavBar,
       TabBarControl,
       GoodsList,
       GoodsListItem,
       Scroll,
-      BackTop,
+      // BackTop,
       HomeSwiper,
       HomeRecommend,
       FeatureView
@@ -68,8 +70,8 @@
           'sell': {page:0, list:[]}
         },
         goodsType: 'pop',
-        isShow: false,
         setTop: 0,
+        // isShow:false,
         offsetTopControl: 0,
         isShowControl: false,
         savePosiY: 0,
@@ -83,12 +85,12 @@
       this.getHomeGoodsData('sell')
     },
     mounted() {
-      //防抖函数
-      const refresh = debounce(this.$refs.scroll.refresh,50)
-      // 事件总线
-      this.$bus.$on('imgLoaded', () => {
-        refresh()
-      })
+      // //防抖函数
+      // const refresh = debounce(this.$refs.scroll.refresh,50)
+      // // 事件总线
+      // this.$bus.$on('imgLoaded', () => {
+      //   refresh()
+      // })
     },
     activated() {
       this.$refs.scroll.refresh()
@@ -148,10 +150,10 @@
         this.$refs.tabControl2.finalIndex = index
       },
       // 监听组件的点击,点击后滚动到顶部
-      backClick() {
-        // 组件访问$refs,访问子组件
-        this.$refs.scroll.scrollTo(0, 0, 500)
-      },
+      // backClick() {
+      //   // 组件访问$refs,访问子组件
+      //   this.$refs.scroll.scrollTo(0, 0, 500)
+      // },
       // 获得当前滚动的位置
       getPosition(position) {
         // 判断backTop的隐藏和显示

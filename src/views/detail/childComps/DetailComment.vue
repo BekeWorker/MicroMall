@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import {formatDate} from 'common/Utils'
+  import {formatDate} from 'common/utils'
   export default {
     name: "DetailComment",
     props: {

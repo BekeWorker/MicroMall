@@ -1,15 +1,20 @@
 <template>
   <div id="detail">
-    <detail-nav-bar/>
-    <scroll class="content" ref="detailScroll">
+    <detail-nav-bar @themeClick="themeClick" ref="detailNav"/>
+    <scroll class="content"
+            ref="scroll"
+            :probeType="3"
+            @timePosition="getPosition"
+    >
       <detail-swiper class="detail-swiper" :topImages="topImages"/>
       <detail-goods-info :goodsInfo="goodsInfo"/>
       <detail-shop-info :shopInfo="shopInfo"/>
-      <detail-goods-desc :goodsDesc="goodsDesc" @imageLoad="imageLoad"/>
-      <detail-params-info :goodsParamsInfo="goodsParamsInfo"/>
-      <detail-comment :goodsComment="goodsComment"/>
-      <goods-list :goods="goods"/>
+      <detail-goods-desc :goodsDesc="goodsDesc" @imageLoad="imageLoad" />
+      <detail-params-info :goodsParamsInfo="goodsParamsInfo" ref="paramsInfo"/>
+      <detail-comment :goodsComment="goodsComment" ref="comment"/>
+      <goods-list :goods="goods" ref="recommend"/>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShow"/>
     <detail-bottom-bar/>
   </div>
 </template>
@@ -29,8 +34,10 @@
 
   import {getDetailData, getRecommendData} from 'network/detail'
   import {GoodsInfo, ShopInfo, ParamsInfo} from 'network/detail'
+  import {goodsItemImageLoad, backTop} from 'common/mixin';
   export default {
     name: "Detail",
+    mixins:[goodsItemImageLoad, backTop],
     components: {
       Scroll,
       GoodsList,
@@ -51,8 +58,11 @@
         shopInfo: {},
         goodsDesc: {},
         goodsParamsInfo: {},
-        goodsComment:[],
-        goods:[]
+        goodsComment: [],
+        goods: [],
+        themePositionY: [],
+        positionY: 0,
+        resultIndex: 0
       }
     },
     created() {
@@ -81,7 +91,56 @@
     methods: {
       imageLoad() {
         // console.log('图片刷新')
-        this.$refs.detailScroll.refresh()
+        this.$refs.scroll.refresh()
+        // 图片刷新完成,offsetTop会获取正确的值
+        this.getThemePositionY()
+
+      },
+      getThemePositionY () {
+        // 每次进来赋空值,防止多次push.
+        this.themePositionY = []
+        this.themePositionY.push(0)
+        this.themePositionY.push(this.$refs.paramsInfo.$el.offsetTop)
+        this.themePositionY.push(this.$refs.comment.$el.offsetTop)
+        this.themePositionY.push(this.$refs.recommend.$el.offsetTop)
+        // 为了少进行一次判断,这个值并没有实际的意义
+        this.themePositionY.push(Number.MAX_VALUE)
+        // console.log(this.themePositionY)
+      },
+      //获取scroll实时滚动的位置
+      getPosition(position) {
+        // console.log(position)
+        this.isShow = -position.y > 1000
+        this.positionY = -position.y
+
+        // 实现联动效果--注意临界值的判断
+        // if(this.positionY >= this.themePositionY[0] && this.positionY < this.themePositionY[1]){
+        //   this.$refs.detailNav.finalIndex = 0;
+        // }else if(this.positionY >= this.themePositionY[1] && this.positionY < this.themePositionY[2]) {
+        //   this.$refs.detailNav.finalIndex = 1;
+        // }else if(this.positionY >= this.themePositionY[2] && this.positionY < this.themePositionY[3]) {
+        //   this.$refs.detailNav.finalIndex = 2;
+        // }else {
+        //   this.$refs.detailNav.finalIndex = 3;
+        // }
+
+        // for(let i in this.themePositionY) {
+        //   // console.log(typeof i)
+        //   // parseInt(i)
+        // }
+
+        for(let i=0; i<this.themePositionY.length-1; i++) {
+          if(this.resultIndex !== i && (this.positionY >= this.themePositionY[i] && this.positionY < this.themePositionY[i+1])){
+            this.resultIndex = i
+            // console.log(this.resultIndex)
+            this.$refs.detailNav.finalIndex = this.resultIndex;
+          }
+        }
+      },
+      // 监听导航themeClick的点击
+      themeClick(index) {
+        // console.log(index);
+        this.$refs.scroll.scrollTo(0, -this.themePositionY[index], 500)
       }
     }
   }
@@ -94,6 +153,10 @@
   .content {
     overflow: hidden;
     height: calc(100% - 93px);
-    margin-top: 44px;
+    position: relative;
+    top:44px
+
+    /*setoffTop高度不会被计算在内*/
+    /*margin-top: 44px;*/
   }
 </style>

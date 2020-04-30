@@ -24,13 +24,14 @@
     },
     data () {
       return {
-        titles: ['商品', '描述', '评价', '推荐'],
+        titles: ['商品', '参数', '评价', '推荐'],
         finalIndex: 0
       }
     },
     methods: {
       titieClick (index) {
         this.finalIndex = index
+        this.$emit('themeClick', index)
       },
       getBack() {
         this.$router.back();
