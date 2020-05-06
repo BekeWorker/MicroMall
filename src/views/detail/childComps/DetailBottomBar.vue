@@ -14,7 +14,7 @@
         <span>收藏</span>
       </div>
     </div>
-    <div class="detail-bar-right">
+    <div class="detail-bar-right" @click="cartClick">
       <div class="join-car">
         <span>加入购物车</span>
       </div>
@@ -27,7 +27,12 @@
 
 <script>
   export default {
-    name: "DetailBottomBar"
+    name: "DetailBottomBar",
+    methods: {
+      cartClick() {
+        this.$emit('cartClick')
+      }
+    }
   }
 </script>
 

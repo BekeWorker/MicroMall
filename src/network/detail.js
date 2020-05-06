@@ -18,7 +18,8 @@ export class GoodsInfo {
     this.oldPrice = itemInfo.oldPrice;
     this.discountBgColor = itemInfo.discountBgColor;
     this.discountDesc = itemInfo.discountDesc;
-    this.services = services
+    this.services = services;
+    this.lowPrice = itemInfo.lowPrice
   }
 }
 

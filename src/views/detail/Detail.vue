@@ -15,7 +15,7 @@
       <goods-list :goods="goods" ref="recommend"/>
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"/>
-    <detail-bottom-bar/>
+    <detail-bottom-bar @cartClick="cartClick"/>
   </div>
 </template>
 
@@ -81,12 +81,23 @@
         this.goodsParamsInfo = new ParamsInfo(this.data.itemParams.info, this.data.itemParams.rule)
         // 获取用户评价
         this.goodsComment = this.data.rate.list
+
+        // 数据传送,但是dom没有渲染
+        // this.getThemePositionY()
+        // 渲染完成图的高度没有被计算在内
+        // this.$nextTick(this.getThemePositionY())
+
       })
       // 获取推荐产品的的信息
       getRecommendData().then((res) => {
         this.goods = res.data.data.list
         // console.log(this.goods)
       })
+
+      // 在created中根本拿不到元素
+      // this.getThemePositionY()
+      // 在mounted中数据都没有传输过去
+      // this.getThemePositionY()
     },
     methods: {
       imageLoad() {
@@ -105,9 +116,9 @@
         this.themePositionY.push(this.$refs.recommend.$el.offsetTop)
         // 为了少进行一次判断,这个值并没有实际的意义
         this.themePositionY.push(Number.MAX_VALUE)
-        // console.log(this.themePositionY)
+        console.log(this.themePositionY)
       },
-      //获取scroll实时滚动的位置
+      // 获取scroll实时滚动的位置
       getPosition(position) {
         // console.log(position)
         this.isShow = -position.y > 1000
@@ -141,6 +152,19 @@
       themeClick(index) {
         // console.log(index);
         this.$refs.scroll.scrollTo(0, -this.themePositionY[index], 500)
+      },
+      // 监听购物车的点击
+      cartClick() {
+        // console.log('购物车被点击');
+        const obj = {
+          image: this.topImages[0],
+          title: this.goodsInfo.title,
+          price: this.goodsInfo.lowPrice,
+          iid: this.$route.params.iid,
+          desc: this.goodsDesc.desc
+        }
+        this.$store.dispatch('cartGoods', obj)
+        // this.$store.commit('addCart', obj)
       }
     }
   }
