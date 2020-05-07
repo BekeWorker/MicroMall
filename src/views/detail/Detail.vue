@@ -67,7 +67,7 @@
     },
     created() {
       getDetailData(this.$route.params.iid).then((res) =>{
-        console.log(res);
+        // console.log(res);
         // 获取轮播图的数据
         this.data = res.data.result
         this.topImages = this.data.itemInfo.topImages
@@ -116,7 +116,7 @@
         this.themePositionY.push(this.$refs.recommend.$el.offsetTop)
         // 为了少进行一次判断,这个值并没有实际的意义
         this.themePositionY.push(Number.MAX_VALUE)
-        console.log(this.themePositionY)
+        // console.log(this.themePositionY)
       },
       // 获取scroll实时滚动的位置
       getPosition(position) {

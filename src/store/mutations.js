@@ -55,13 +55,14 @@ const mutations = {
 
   [INCRECOUNT](state, oldProduct) {
     oldProduct.count += 1
-    console.log(oldProduct.count);
   },
 
   [INCREPRODUCT](state, payload) {
-    state.cartList.push(payload)
-    payload.count = 1
-    console.log(state.cartList)
+    // 这里将payload.count = 1时,
+    // vue中的数据是对的,但是界面显示错误.
+    // payload.count = 1;
+    state.cartList.push(payload);
+    payload.check = true
   }
 
 }

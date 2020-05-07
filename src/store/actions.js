@@ -17,6 +17,7 @@ const actions = {
       context.commit(types.INCRECOUNT, oldProduct)
     } else {
       // 增加新的商品
+      payload.count = 1;
       context.commit(types.INCREPRODUCT, payload)
     }
   }
