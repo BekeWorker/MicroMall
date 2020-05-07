@@ -1,7 +1,5 @@
 <template>
-  <div class="check"
-       :class="{active:isCheck}"
-  >
+  <div class="check" :class="{active:isCheck}">
     <img src="~assets/img/cart/tick.svg" alt="">
   </div>
 </template>
@@ -12,7 +10,7 @@
     props: {
       isCheck: {
         type: Boolean,
-        default: true
+        default: false
       }
     }
   }

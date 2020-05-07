@@ -17,7 +17,9 @@ const actions = {
       context.commit(types.INCRECOUNT, oldProduct)
     } else {
       // 增加新的商品
+      // 一定要在push产品前将属性(count check)加进去
       payload.count = 1;
+      payload.check = true;
       context.commit(types.INCREPRODUCT, payload)
     }
   }

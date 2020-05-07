@@ -61,8 +61,8 @@ const mutations = {
     // 这里将payload.count = 1时,
     // vue中的数据是对的,但是界面显示错误.
     // payload.count = 1;
-    state.cartList.push(payload);
-    payload.check = true
+    state.cartList.push(payload)
+
   }
 
 }

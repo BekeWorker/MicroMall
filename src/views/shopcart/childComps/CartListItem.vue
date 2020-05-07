@@ -1,6 +1,6 @@
 <template>
   <div class="cart-list-item" v-if="Object.keys(goodsItem).length !== 0">
-    <check :isCheck="isCheck" @click.native="checkClick"/>
+    <check :isCheck="goodsItem.check" @click.native="checkClick"/>
     <div class="left">
       <img :src="goodsItem.image" alt="">
     </div>
@@ -30,15 +30,9 @@
         }
       }
     },
-    data() {
-      return {
-        isCheck: true
-      }
-    },
     methods: {
       checkClick() {
         this.goodsItem.check = !this.goodsItem.check;
-        this.isCheck = this.goodsItem.check
       }
     }
   }

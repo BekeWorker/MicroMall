@@ -49,7 +49,7 @@
     height: calc(100vh - 93px);
   }
   .cart .content {
-    height: 100%;
+    height: calc(100% - 30px);
     margin-top: 44px;
     overflow: hidden;
   }
