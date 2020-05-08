@@ -36,6 +36,9 @@
   import {getDetailData, getRecommendData} from 'network/detail'
   import {GoodsInfo, ShopInfo, ParamsInfo} from 'network/detail'
   import {goodsItemImageLoad, backTop, toast} from 'common/mixin';
+
+  import {mapActions} from 'vuex'
+
   export default {
     name: "Detail",
     mixins:[goodsItemImageLoad, backTop, toast],
@@ -101,6 +104,7 @@
       // this.getThemePositionY()
     },
     methods: {
+      ...mapActions(['cartGoods']),
       imageLoad() {
         // console.log('图片刷新')
         this.$refs.scroll.refresh()
@@ -164,12 +168,18 @@
           iid: this.$route.params.iid,
           desc: this.goodsDesc.desc
         }
-        // 任务分发给actions
-        this.$store.dispatch('cartGoods', obj).then(res =>{
-          this.message = res
-          this.showToast()
+        // 将actions中的方法导入的局部的methods中去
+        this.cartGoods(obj).then( res=> {
+            this.message = res
+            this.showToast()
         })
+        // 任务分发给actions
+        // this.$store.dispatch('cartGoods', obj).then(res =>{
+        //   this.message = res
+        //   this.showToast()
+        // })
         // this.$store.commit('addCart', obj)
+
       }
     }
   }
