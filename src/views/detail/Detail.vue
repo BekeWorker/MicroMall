@@ -167,7 +167,7 @@
         // 任务分发给actions
         this.$store.dispatch('cartGoods', obj).then(res =>{
           this.message = res
-          this.show()
+          this.showToast()
         })
         // this.$store.commit('addCart', obj)
       }

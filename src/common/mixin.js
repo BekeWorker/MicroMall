@@ -44,7 +44,7 @@ export const toast = {
     Toast
   },
   methods: {
-    show(delay=1500) {
+    showToast(delay=1500) {
       this.isShowToast = true
       setTimeout(() =>{
         this.isShowToast = false

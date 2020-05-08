@@ -1,6 +1,6 @@
 <template>
   <div>
-    <toast v-show="isShowToast" message="请选购产品"/>
+<!--    <toast v-show="isShowToast" message="请选购产品"/>-->
     <div class="cart-bottom-bar">
       <div class="left-price">
         <div class="checked">
@@ -22,12 +22,12 @@
 <script>
   import Check from "components/content/check/Check";
 
-  import {toast} from "common/mixin"
+  // import {toast} from "common/mixin"
 
   import {mapGetters} from 'vuex'
   export default {
     name: "CartBottomBar",
-    mixins:[toast],
+    // mixins:[toast],
     components: {
       Check
     },
@@ -87,9 +87,8 @@
       },
       // 监听去结算
       totalCountClick() {
-        // console.log('去结算');
         if(!this.list.length){
-          this.show()
+          this.$toast.showToast('请添加商品',1000)
         }
       }
     }
