@@ -1,6 +1,7 @@
 <template>
   <div id="detail">
     <detail-nav-bar @themeClick="themeClick" ref="detailNav"/>
+    <toast v-show="isShowToast" :message="message"></toast>
     <scroll class="content"
             ref="scroll"
             :probeType="3"
@@ -34,10 +35,10 @@
 
   import {getDetailData, getRecommendData} from 'network/detail'
   import {GoodsInfo, ShopInfo, ParamsInfo} from 'network/detail'
-  import {goodsItemImageLoad, backTop} from 'common/mixin';
+  import {goodsItemImageLoad, backTop, toast} from 'common/mixin';
   export default {
     name: "Detail",
-    mixins:[goodsItemImageLoad, backTop],
+    mixins:[goodsItemImageLoad, backTop, toast],
     components: {
       Scroll,
       GoodsList,
@@ -155,7 +156,7 @@
       },
       // 监听购物车的点击
       cartClick() {
-        // console.log('购物车被点击');
+        // 要加入购物车的商品
         const obj = {
           image: this.topImages[0],
           title: this.goodsInfo.title,
@@ -163,7 +164,11 @@
           iid: this.$route.params.iid,
           desc: this.goodsDesc.desc
         }
-        this.$store.dispatch('cartGoods', obj)
+        // 任务分发给actions
+        this.$store.dispatch('cartGoods', obj).then(res =>{
+          this.message = res
+          this.show()
+        })
         // this.$store.commit('addCart', obj)
       }
     }

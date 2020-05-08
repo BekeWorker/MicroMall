@@ -14,8 +14,8 @@
         <span>收藏</span>
       </div>
     </div>
-    <div class="detail-bar-right" @click="cartClick">
-      <div class="join-car">
+    <div class="detail-bar-right">
+      <div class="join-car"  @click="cartClick">
         <span>加入购物车</span>
       </div>
       <div class="buy-product">

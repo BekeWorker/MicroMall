@@ -1,17 +1,20 @@
 <template>
-  <div class="cart-bottom-bar">
-    <div class="left-price">
-      <div class="checked">
-        <check class="bottom-check"
-               :isCheck="isAllSelect"
-               @click.native="allSelectClick"
-        />
-        <span>全选</span>
+  <div>
+    <toast v-show="isShowToast" message="请选购产品"/>
+    <div class="cart-bottom-bar">
+      <div class="left-price">
+        <div class="checked">
+          <check class="bottom-check"
+                 :isCheck="isAllSelect"
+                 @click.native="allSelectClick"
+          />
+          <span>全选</span>
+        </div>
+        <span>合计:¥{{totalPrice}}</span>
       </div>
-      <span>合计:¥{{totalPrice}}</span>
-    </div>
-    <div class="right-count">
-      <span>去计算({{totalCount}})</span>
+      <div class="right-count" @click="totalCountClick">
+        <span>去计算({{totalCount}})</span>
+      </div>
     </div>
   </div>
 </template>
@@ -19,9 +22,12 @@
 <script>
   import Check from "components/content/check/Check";
 
+  import {toast} from "common/mixin"
+
   import {mapGetters} from 'vuex'
   export default {
     name: "CartBottomBar",
+    mixins:[toast],
     components: {
       Check
     },
@@ -68,12 +74,22 @@
       }
     },
     methods: {
+      /**
+       * 事件监听的方法
+       */
       // 全选的点击
       allSelectClick() {
         if(!this.isAllSelect) {
           this.list.forEach(item =>{item.check = true})
         } else {
           this.list.forEach(item =>{item.check = false})
+        }
+      },
+      // 监听去结算
+      totalCountClick() {
+        // console.log('去结算');
+        if(!this.list.length){
+          this.show()
         }
       }
     }

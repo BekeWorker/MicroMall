@@ -1,6 +1,7 @@
 import {debounce} from 'common/utils'
 
 import BackTop from "components/content/backTop/BackTop";
+import Toast from "components/common/toast/Toast";
 
 export const goodsItemImageLoad ={
   mounted() {
@@ -30,4 +31,24 @@ export const backTop = {
     }
   }
 
+}
+
+export const toast = {
+  data() {
+    return {
+      message:'',
+      isShowToast: false
+    }
+  },
+  components: {
+    Toast
+  },
+  methods: {
+    show(delay=1500) {
+      this.isShowToast = true
+      setTimeout(() =>{
+        this.isShowToast = false
+      }, delay)
+    }
+  }
 }

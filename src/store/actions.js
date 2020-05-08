@@ -8,20 +8,25 @@ const actions = {
   // 是增加了产品的数量还是增加了产品
 
   cartGoods(context, payload) {
-    // context不是state
-    let oldProduct = context.state.cartList.find(item => {
-      return item.iid === payload.iid
+    // 在vuex中进行的某些操作,想要在外部监听该操作的完成使用promise
+    return new Promise((resolve,reject) =>{
+      // context不是state
+      let oldProduct = context.state.cartList.find(item => {
+        return item.iid === payload.iid
+      })
+      if(oldProduct) {
+        // 商品的数量增加
+        context.commit(types.INCRECOUNT, oldProduct)
+        resolve('商品的数量增加')
+      } else {
+        // 增加新的商品
+        // 一定要在push产品前将属性(count check)加进去
+        payload.count = 1;
+        payload.check = true;
+        context.commit(types.INCREPRODUCT, payload)
+        resolve('增加新的商品')
+      }
     })
-    if(oldProduct) {
-      // 商品的数量增加
-      context.commit(types.INCRECOUNT, oldProduct)
-    } else {
-      // 增加新的商品
-      // 一定要在push产品前将属性(count check)加进去
-      payload.count = 1;
-      payload.check = true;
-      context.commit(types.INCREPRODUCT, payload)
-    }
   }
 }
 
