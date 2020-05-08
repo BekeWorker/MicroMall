@@ -2,7 +2,10 @@
   <div class="cart-bottom-bar">
     <div class="left-price">
       <div class="checked">
-        <check class="bottom-check"/>
+        <check class="bottom-check"
+               :isCheck="isAllSelect"
+               @click.native="allSelectClick"
+        />
         <span>全选</span>
       </div>
       <span>合计:¥{{totalPrice}}</span>
@@ -35,11 +38,43 @@
         }, 0).toFixed(2)
       },
       totalCount() {
+        // 获取所有产品的个数
         return this.list.filter(item => {
           return item.check
         }).reduce((preValue, item)=> {
           return item.count + preValue
         }, 0)
+        // 获取选中产品的个数
+        // return this.list.filter(item => {
+        //   return item.check
+        // }).length
+      },
+      // 全选的显示
+      isAllSelect() {
+        if(this.list.length === 0) return false;
+        // 方式一通过filter判断不选中数组的长度
+        // return !(this.list.filter(item => { return !item.check }).length)
+        // 方式二查找不选中的对象
+        return this.list.find(item => {return !item.check}) === undefined
+        // console.log(this.list.find(item => {return !item.check})) // find返回的是一个对象
+
+        // 方式三 普通的遍历
+        // for(let item of this.list) {
+        //   if(!item.check) {
+        //     return false
+        //   }
+        // }
+        // return true
+      }
+    },
+    methods: {
+      // 全选的点击
+      allSelectClick() {
+        if(!this.isAllSelect) {
+          this.list.forEach(item =>{item.check = true})
+        } else {
+          this.list.forEach(item =>{item.check = false})
+        }
       }
     }
   }
