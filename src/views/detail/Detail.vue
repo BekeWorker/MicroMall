@@ -187,11 +187,11 @@
 
 <style scoped>
   #detail {
-    height: 100vh;
+    height: calc(100vh - 93px);
   }
   .content {
     overflow: hidden;
-    height: calc(100% - 93px);
+    height: 100%;
     position: relative;
     top:44px
 

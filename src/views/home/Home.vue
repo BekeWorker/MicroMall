@@ -177,7 +177,7 @@
 <style scoped>
   #home {
     /*视口的高度vh 100%*/
-    height: 100vh;
+    height: calc(100vh - 93px);
   }
   .home-nav {
     background-color: var(--color-tint);
@@ -198,7 +198,7 @@
   /*计算内容的高度*/
   .content {
     overflow: hidden;
-    height: calc(100% - 93px);
+    height: 100%;
     margin-top: 44px;
   }
   #home .tab-control1 {
