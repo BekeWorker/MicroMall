@@ -102,6 +102,8 @@
 
     /*position: relative;*/
     /*bottom: 30px;*/
+    position: fixed;
+    bottom: 49px;
 
     background-color: #eaeaea;
     height: 30px;

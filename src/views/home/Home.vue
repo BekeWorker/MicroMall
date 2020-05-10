@@ -199,7 +199,8 @@
   .content {
     overflow: hidden;
     height: 100%;
-    margin-top: 44px;
+    position: relative;
+    top:44px
   }
   #home .tab-control1 {
     position: fixed;
